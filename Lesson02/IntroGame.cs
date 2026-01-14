@@ -4,12 +4,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Lesson02;
 
-public class Game1 : Game
+public class IntroGame : Game
 {
+    //an object that represents the screen
     private GraphicsDeviceManager _graphics;
+    //an object that batches up draw commands so that they can be sent
+    //to the screen all at once
     private SpriteBatch _spriteBatch;
 
-    public Game1()
+    private Texture2D _pixel;
+
+    public IntroGame()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
@@ -18,8 +23,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
         base.Initialize();
     }
 
@@ -27,24 +30,27 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        //new texture that is one pixel by one pixel
+        _pixel = new Texture2D(GraphicsDevice, 1, 1);
+        _pixel.SetData(new [] {Color.White});
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-
-        // TODO: Add your update logic here
-
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Wheat);
 
-        // TODO: Add your drawing code here
+        //all draw commands should always be with the spritebatch begin and end
+        _spriteBatch.Begin();
+
+        Rectangle rect = new Rectangle(100, 150, 80, 50);
+        _spriteBatch.Draw(_pixel, rect, Color.White);
+        
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
