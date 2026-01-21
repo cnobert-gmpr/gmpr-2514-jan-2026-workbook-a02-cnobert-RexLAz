@@ -15,6 +15,8 @@ public class DisplayingContentGame : Game
 
     private SpriteFont _font;
     private string _output = "This is the string that I want to output.";
+
+    private SimpleAnimation _walkingAnimation;
     public DisplayingContentGame()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -41,6 +43,13 @@ public class DisplayingContentGame : Game
         //Windows
         // _font = Content.Load<SpriteFont>("SystemArialFont");
 
+        Texture2D walkingSpriteSheet = Content.Load<Texture2D>("Walking");
+        int width = walkingSpriteSheet.Width;
+        int height = walkingSpriteSheet.Height;
+        _walkingAnimation = new SimpleAnimation(walkingSpriteSheet, width / 8, height, 8, 8);
+        //_walkingAnimation = new SimpleAnimation(walkingSpriteSheet, 81, 144, 8, 8);
+
+
         //MacOS
          byte[] fontBytes = File.ReadAllBytes("Content/Tahoma.ttf");
         _font = TtfFontBaker.Bake(fontBytes, 30, 1024, 1024, new[] { CharacterRange.BasicLatin }).CreateSpriteFont(GraphicsDevice);
@@ -49,6 +58,7 @@ public class DisplayingContentGame : Game
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+        _walkingAnimation.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
@@ -59,6 +69,7 @@ public class DisplayingContentGame : Game
         _spriteBatch.Draw(_spaceStation, Vector2.Zero, Color.White);
         _spriteBatch.Draw(_ship, new Vector2(200, 140), Color.White);
         _spriteBatch.DrawString(_font, _output, new Vector2(20, 20), Color.Beige);
+        _walkingAnimation.Draw(_spriteBatch, new Vector2(100, 100), SpriteEffects.None);
         _spriteBatch.End();
 
         base.Draw(gameTime);
