@@ -75,3 +75,4 @@ public class DisplayingContentGame : Game
         base.Draw(gameTime);
     }
 }
+ 
